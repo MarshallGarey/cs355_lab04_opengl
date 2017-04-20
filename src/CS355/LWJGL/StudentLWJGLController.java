@@ -72,22 +72,22 @@ public class StudentLWJGLController implements CS355LWJGLController {
         if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
             // Move left
 //            cameraPosition.x += CAM_MOVE_DIFF;
-            moveCamera(CAM_MOVE_DIFF, 0, 0);
+            moveCameraX(CAM_MOVE_DIFF);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
             // Move right
 //            cameraPosition.x -= CAM_MOVE_DIFF;
-            moveCamera(-CAM_MOVE_DIFF, 0, 0);
+            moveCameraX(-CAM_MOVE_DIFF);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
             // Move backward
 //            cameraPosition.z -= CAM_MOVE_DIFF;
-            moveCamera(0, 0, -CAM_MOVE_DIFF);
+            moveCameraZ(-CAM_MOVE_DIFF);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
             // Move forward
 //            cameraPosition.z += CAM_MOVE_DIFF;
-            moveCamera(0, 0, CAM_MOVE_DIFF);
+            moveCameraZ(CAM_MOVE_DIFF);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_R)) {
             // Move up
@@ -119,13 +119,16 @@ public class StudentLWJGLController implements CS355LWJGLController {
         }
     }
 
-    private void moveCamera(double dx, double dy, double dz) {
-        // We rotate about the y-axis, so no trig here
-        cameraPosition.y += dy;
-        // For x and z, do some trig
+    private void moveCameraZ(double dz) {
         double angleRadians = cameraRotation * DEGREES_TO_RADIANS;
-        cameraPosition.x += dx*Math.cos(angleRadians)-dz*Math.sin(angleRadians);
-        cameraPosition.z += dx*Math.sin(angleRadians)+dz*Math.cos(angleRadians);
+        cameraPosition.x += dz*Math.sin(angleRadians);
+        cameraPosition.z += dz*Math.cos(angleRadians);
+    }
+
+    private void moveCameraX(double dx) {
+        double angleRadians = cameraRotation * DEGREES_TO_RADIANS;
+        cameraPosition.x += dx*Math.cos(angleRadians);
+        cameraPosition.z += dx*Math.sin(angleRadians);
     }
 
     private void resetCamera() {

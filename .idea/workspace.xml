@@ -53,8 +53,8 @@
           <file leaf-file-name="StudentLWJGLController.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/CS355/LWJGL/StudentLWJGLController.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="64">
-                  <caret line="129" column="0" lean-forward="true" selection-start-line="129" selection-start-column="0" selection-end-line="129" selection-end-column="0" />
+                <state relative-caret-position="438">
+                  <caret line="139" column="0" lean-forward="true" selection-start-line="139" selection-start-column="0" selection-end-line="139" selection-end-column="0" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -79,8 +79,8 @@
           <file leaf-file-name="StudentLWJGLController.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/CS355/LWJGL/StudentLWJGLController.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="323">
-                  <caret line="89" column="44" lean-forward="false" selection-start-line="89" selection-start-column="44" selection-end-line="89" selection-end-column="44" />
+                <state relative-caret-position="391">
+                  <caret line="84" column="40" lean-forward="true" selection-start-line="84" selection-start-column="40" selection-end-line="84" selection-end-column="40" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -687,8 +687,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/CS355/LWJGL/StudentLWJGLController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="64">
-          <caret line="129" column="0" lean-forward="true" selection-start-line="129" selection-start-column="0" selection-end-line="129" selection-end-column="0" />
+        <state relative-caret-position="438">
+          <caret line="139" column="0" lean-forward="true" selection-start-line="139" selection-start-column="0" selection-end-line="139" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
