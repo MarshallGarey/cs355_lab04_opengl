@@ -41,8 +41,11 @@ public class HouseModel extends WireFrame
         lines.add(new Line3D(new Point3D(-1,0,5), new Point3D(-1,3,5)));
         lines.add(new Line3D(new Point3D(1,3,5), new Point3D(-1,3,5)));
     }
-    
-    
+
+    public List<Line3D> getModelLines() {
+        return lines;
+    }
+
     public Iterator<Line3D> getLines()
     {
         return lines.iterator();
