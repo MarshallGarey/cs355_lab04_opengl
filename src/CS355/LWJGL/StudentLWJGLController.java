@@ -26,13 +26,13 @@ public class StudentLWJGLController implements CS355LWJGLController {
     // Useful constants
     private final double RADIANS_TO_DEGREES = 180.0 / Math.PI;
     private final double DEGREES_TO_RADIANS = Math.PI / 180.0;
+    private final double PI_FOURTHS = Math.PI / 4.0;
 
-    // Virtual camera (everything for it)
+    // Virtual camera
     private final double ORIGINAL_CAMERA_ROTATION = 0;
-    private final double CAMERA_START_X =0;// -4.2;//0;
-    private final double CAMERA_START_Y =-4;// -5;//0;
-    private final double CAMERA_START_Z = -12;// 4.8;//0;
-    private final Point3D ORIGINAL_CAMERA_POSITION = new Point3D(CAMERA_START_X, CAMERA_START_Y, CAMERA_START_Z);
+    private final double CAMERA_START_X =0;
+    private final double CAMERA_START_Y =-4;
+    private final double CAMERA_START_Z = -12;
     private final double CAM_MOVE_DIFF = .18;
     private final double CAM_ROTATE_DIFF = 1.0; // 1 degree
     private Point3D cameraPosition;
@@ -52,7 +52,6 @@ public class StudentLWJGLController implements CS355LWJGLController {
     //When you first start, have it be in perspective mode.
     @Override
     public void resizeGL() {
-        // TODO: initialize stuff here
         perspectiveMode = true;
         cameraPosition = new Point3D(0,0,0);
         resetCamera();
@@ -71,22 +70,18 @@ public class StudentLWJGLController implements CS355LWJGLController {
     public void updateKeyboard() {
         if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
             // Move left
-//            cameraPosition.x += CAM_MOVE_DIFF;
             moveCameraX(CAM_MOVE_DIFF);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
             // Move right
-//            cameraPosition.x -= CAM_MOVE_DIFF;
             moveCameraX(-CAM_MOVE_DIFF);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
             // Move backward
-//            cameraPosition.z -= CAM_MOVE_DIFF;
             moveCameraZ(-CAM_MOVE_DIFF);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
             // Move forward
-//            cameraPosition.z += CAM_MOVE_DIFF;
             moveCameraZ(CAM_MOVE_DIFF);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_R)) {
@@ -146,12 +141,13 @@ public class StudentLWJGLController implements CS355LWJGLController {
         glColor3d(128,128,128);
 
         // Do your drawing here.
+        // TODO: Something is backwards somewhere. I can't get both zooming and panning correct with rotating.
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
 
         if (perspectiveMode) {
             GLU.gluPerspective(90, 2, 1, 40);
-            glRotated(-cameraRotation, 0, -cameraPosition.y, 0); // rotate about y axis
+            glRotated(-cameraRotation, 0, 1, 0); // rotate about y axis
             glTranslated(cameraPosition.x, cameraPosition.y, cameraPosition.z); // move to camera
         }
         else {
@@ -160,7 +156,7 @@ public class StudentLWJGLController implements CS355LWJGLController {
                     (-15.0),
                     (+15.0),
                     1.0, 40.0);
-            glRotated(-cameraRotation, 0, -cameraPosition.y, 0); // rotate about y axis
+            glRotated(-cameraRotation, 0, 1, 0); // rotate about y axis
             glTranslated(cameraPosition.x, cameraPosition.y, cameraPosition.z); // move to camera
 
         }
