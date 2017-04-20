@@ -54,8 +54,8 @@ public class StudentLWJGLController implements CS355LWJGLController {
     public void resizeGL() {
         // TODO: initialize stuff here
         perspectiveMode = true;
-        cameraPosition = new Point3D(CAMERA_START_X, CAMERA_START_Y, CAMERA_START_Z);
-        cameraRotation = ORIGINAL_CAMERA_ROTATION;
+        cameraPosition = new Point3D(0,0,0);
+        resetCamera();
     }
 
     @Override
@@ -71,19 +71,23 @@ public class StudentLWJGLController implements CS355LWJGLController {
     public void updateKeyboard() {
         if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
             // Move left
-            cameraPosition.x += CAM_MOVE_DIFF;
+//            cameraPosition.x += CAM_MOVE_DIFF;
+            moveCamera(CAM_MOVE_DIFF, 0, 0);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
             // Move right
-            cameraPosition.x -= CAM_MOVE_DIFF;
+//            cameraPosition.x -= CAM_MOVE_DIFF;
+            moveCamera(-CAM_MOVE_DIFF, 0, 0);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
             // Move backward
-            cameraPosition.z -= CAM_MOVE_DIFF;
+//            cameraPosition.z -= CAM_MOVE_DIFF;
+            moveCamera(0, 0, -CAM_MOVE_DIFF);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
             // Move forward
-            cameraPosition.z += CAM_MOVE_DIFF;
+//            cameraPosition.z += CAM_MOVE_DIFF;
+            moveCamera(0, 0, CAM_MOVE_DIFF);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_R)) {
             // Move up
@@ -103,10 +107,7 @@ public class StudentLWJGLController implements CS355LWJGLController {
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_H)) {
             // Reset camera
-            cameraPosition.x = CAMERA_START_X;
-            cameraPosition.y = CAMERA_START_Y;
-            cameraPosition.z = CAMERA_START_Z;
-            cameraRotation = ORIGINAL_CAMERA_ROTATION;
+            resetCamera();
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_O)) {
             // Set to orthographic mode
@@ -118,13 +119,20 @@ public class StudentLWJGLController implements CS355LWJGLController {
         }
     }
 
-    // TODO: I have no idea what I'm doing here... or in makeOrtho
-    private void makePerspective() {
-        glMatrixMode(GL_PROJECTION);
+    private void moveCamera(double dx, double dy, double dz) {
+        // We rotate about the y-axis, so no trig here
+        cameraPosition.y += dy;
+        // For x and z, do some trig
+        double angleRadians = cameraRotation * DEGREES_TO_RADIANS;
+        cameraPosition.x += dx*Math.cos(angleRadians)-dz*Math.sin(angleRadians);
+        cameraPosition.z += dx*Math.sin(angleRadians)+dz*Math.cos(angleRadians);
     }
 
-    private void makeOrtho() {
-        glMatrixMode(GL_MODELVIEW);
+    private void resetCamera() {
+        cameraPosition.x = CAMERA_START_X;
+        cameraPosition.y = CAMERA_START_Y;
+        cameraPosition.z = CAMERA_START_Z;
+        cameraRotation = ORIGINAL_CAMERA_ROTATION;
     }
 
     // This method is the one that actually draws to the screen.
@@ -134,22 +142,25 @@ public class StudentLWJGLController implements CS355LWJGLController {
         glClear(GL_COLOR_BUFFER_BIT);
         glColor3d(128,128,128);
 
-        // Set viewing mde
-//        if (perspectiveMode)
-//            makePerspective();
-//        else
-//            makeOrtho();
-
         // Do your drawing here.
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
 
-        GLU.gluPerspective(90, 2, 1, 40);
-        glTranslated(cameraPosition.x, cameraPosition.y, cameraPosition.z); // move to camera
-        glRotated(-cameraRotation, 0, 1, 0); // rotate about y axis
-//        glOrtho();
+        if (perspectiveMode) {
+            GLU.gluPerspective(90, 2, 1, 40);
+            glRotated(-cameraRotation, 0, -cameraPosition.y, 0); // rotate about y axis
+            glTranslated(cameraPosition.x, cameraPosition.y, cameraPosition.z); // move to camera
+        }
+        else {
+            glOrtho((-30.0),
+                    (+30.0),
+                    (-15.0),
+                    (+15.0),
+                    1.0, 40.0);
+            glRotated(-cameraRotation, 0, -cameraPosition.y, 0); // rotate about y axis
+            glTranslated(cameraPosition.x, cameraPosition.y, cameraPosition.z); // move to camera
 
-//        glScaled();
+        }
 
         for (Line3D line : model.getModelLines()) {
             glBegin(GL_LINES);
